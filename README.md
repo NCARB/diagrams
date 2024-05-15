@@ -1,7 +1,27 @@
 # Core Diagrams
 
-## Self Serve Jurisdiction Switching Backend
+## Self Serve Jurisdiction Switching 
 
+### Logical State Diagram
+```mermaid
+graph TB
+    A{Eligibilities already open?} -->|Yes| B{Switching to an EES jurisdiction?}
+    B -->|Yes| C{Record compatible with their EES?}
+    C -->|Yes| D[Switching can be automated]
+    C -->|No| E{Jurisdiction allows non-EES flow?}
+    E -->|Yes| F[Manual request process]
+    E -->|No| G[Switching rejected]
+    B -->|No| H[Manual request process]
+    A -->|No| I{Switching to an EES jurisdiction?}
+    I -->|Yes| J{Record compatible with their EES?}
+    J -->|Yes| K[Switching can be automated -- open eligibilities]
+    J -->|No| L{Jurisdiction allows non-EES flow?}
+    L -->|Yes| M[Switching can be automated]
+    L -->|No| N[Switching rejected]
+    I -->|No| O[Switching can be automated]
+```
+
+### API FLow
 ```mermaid
 sequenceDiagram
     participant Apps_UI as Apps UI
